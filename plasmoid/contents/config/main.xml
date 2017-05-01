@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="Update Notifier"/>
+  <group name="General">
+    <entry name="pollinterval" type="Int">
+      <whatsthis>Polling interval (in minutes).</whatsthis>
+      <default>10</default>
+    </entry>
+  </group>
+  <group name="Pacman">
+    <entry name="updatechecker" type="String">
+      <whatsthis>Application to check for updates without updating package database.</whatsthis>
+      <default>checkupdates</default>
+    </entry>
+    <entry name="updatechecker_aur" type="String">
+      <whatsthis>Application to check AUR for updates without installing.</whatsthis>
+      <default>pacaur -k</default>
+    </entry>
+    <entry name="installationcommand" type="String">
+      <whatsthis>Application to install updates.</whatsthis>
+      <default>pacaur -Syu</default>
+    </entry>
+  </group>
+</kcfg>
