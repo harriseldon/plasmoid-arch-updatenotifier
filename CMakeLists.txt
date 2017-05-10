@@ -13,4 +13,4 @@ find_package(KF5Plasma REQUIRED)
 
 # Add installatation target ("make install").
 #TODO: Fix this package name
-plasma_install_package(plasmoid com.dgreengas.updatenotifier)
+plasma_install_package(plasmoid org.kde.pacman.updatenotifier)

@@ -35,21 +35,25 @@ Item {
     id: "executable"
     engine: "executable"
     connectedSources: []
-    property string sourceName: ""
+    //property string sourceName: ""
     onNewData: {
       var exitCode = data["exit code"]
       var exitStatus = data["exit status"]
       var stdout = data["stdout"]
       var stderr = data["stderr"]
-      exited(exitCode, exitStatus, stdout, stderr)
+      exited(sourceName, exitCode, exitStatus, stdout, stderr)
       disconnectSource(sourceName)
+      //connectedSources.pop()
     }
     function exec(cmd) {
-      console.log("exec " + cmd)
-      sourceName = cmd
-      connectSource(cmd)
+
+        //console.log("exec " + cmd)
+        //sourceName = cmd
+        //connectedSources.push(cmd)
+        connectSource(cmd)
+
     }
-    signal exited(int exitCode, int exitStatus, string stdout, string stderr )
+    signal exited(string sourceName, int exitCode, int exitStatus, string stdout, string stderr )
   }
 
   Item {
@@ -59,7 +63,7 @@ Item {
     //allow another package manager besides pacman (e.g. pacaur or packer)
     property string updateChecker: plasmoid.configuration.updatechecker || "checkupdates"
     property string updateChecker_aur: plasmoid.configuration.updatechecker_aur
-    property string updateCommand: plasmoid.configuration.updatecommand || "pacman -Syu"
+    property string updateCommand: plasmoid.configuration.installationcommand || "pacman -Syu"
 
   }
   property string outputText: ''
@@ -69,22 +73,49 @@ Item {
       //console.log ("onExited " + executable.sourceName)
       //console.log ("onExited " + config.updateChecker)
       //console.log( executable.sourceName === config.updateChecker)
-      if ( executable.sourceName === config.updateChecker ) {
+      console.log("onExited " + executable.sourceName)
+      console.log("exitCode: " + exitCode)
+      console.log("exitStatus: " + exitStatus)
+      console.log("stdout: " + stdout)
+      console.log("stderr: " + stderr)
+      if ( sourceName === config.updateChecker ) {
          console.log ("Updating model")
-         packageModel.clear()
+
          var packagelines = stdout.split("\n")
+         if ( packagelines.length > packageModel.count ) {
+           //new Packages
+
+         }
+         packageModel.clear()
          for ( var i = 0; i < packagelines.length; i++) {
            var packagedetails = packagelines[i].split(" ")
            //console.log ("Appending Package: " + packagedetails[0])
-           packageModel.append( { PackageName: packagedetails[0],
-                 FromVersion: packagedetails[1],
-                 ToVersion: packagedetails[3]})
-
+           if ( packagelines[i].trim() != "") {
+             packageModel.append( { PackageName: packagedetails[0],
+                   FromVersion: packagedetails[1],
+                   ToVersion: packagedetails[3]})
+           }
          }
 
-      } else if (executable.sourceName === config.updateChecker_aur) {
+      } else if (sourceName === config.updateChecker_aur) {
         //do not clear the packageModel
+        console.log("Updating aur model")
+        var packagelines = stdout.split("\n")
+        var pregex = /^\S+\s+\S+\s+(\S+)\s+(\S+)\s+\S+\s+(\S+)/;
+        for ( var i = 0; i < packagelines.length; i++) {
+          var packageline = packagelines[i];
 
+
+          var parameters = pregex.exec(packageline);
+
+          if ( parameters != null) {
+            //console.log ("Appending Package: " + packagedetails[0])
+            console.log("package name " + parameters[1])
+            packageModel.append( { PackageName: parameters[1],
+                  FromVersion: parameters[2],
+                  ToVersion: parameters[3]})
+          }
+        }
         timer.restart()
       }
 
@@ -106,7 +137,10 @@ Item {
   }
 
   function action_updateSystem() {
-     executable.exec('konsole -e "' + config.updateCommand + '"')
+     timer.stop()
+     //executable.exec('konsole -e ' + config.updateCommand)
+     executable.exec('konsole -e "' + plasmoid.configuration.installationcommand + '"')
+     timer.start()
   }
   Component.onCompleted: {
     console.log("onCompleted")
@@ -114,6 +148,7 @@ Item {
     plasmoid.setAction("action_updateSystem", i18n("Update System"), "package-install")
     console.log("checkupdates " + plasmoid.configuration.updatechecker)
     executable.exec(plasmoid.configuration.updatechecker)
+    executable.exec(plasmoid.configuration.updatechecker_aur)
     timer.start()
   }
 }

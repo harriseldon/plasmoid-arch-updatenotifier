@@ -13,7 +13,7 @@ PlasmaCore.IconItem {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.MiddleButton) {
-                mainItem.action_openInbox()
+                main.action_updateSystem()
             } else {
                 plasmoid.expanded = !plasmoid.expanded
             }

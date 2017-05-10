@@ -3,4 +3,4 @@
 #kpackagetool5 -t Plasma/Applet --install plasmoid/
 kpackagetool5 -t Plasma/Applet --upgrade plasmoid/
 
-plasmawindowed com.dgreengas.updatenotifier
+plasmawindowed org.kde.pacman.updatenotifier
