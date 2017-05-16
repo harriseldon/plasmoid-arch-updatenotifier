@@ -9,7 +9,6 @@ Type=Service
 X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
 
-NoDisplay=true
 
 X-KDE-PluginInfo-Author=David Greengas
 X-KDE-PluginInfo-Email=dave.greengas@gmail.com

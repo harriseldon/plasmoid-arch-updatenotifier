@@ -15,31 +15,40 @@ Item {
 
     QtLayouts.GridLayout {
         columns: 2
+        anchors.left: parent.left
+        QtLayouts.Layout.fillWidth: true
 
-        PlasmaComponents.Label {
-            //text: i18n("Update Checker: ")
-            text: "UPDATE CHECKER: "
+        Label {
+            text: i18n("Update Checker: ")
+            //text: "UPDATE CHECKER: "
         }
 
         TextInput {
             id: updatechecker
+            focus: true
+            text: plasmoid.configuration.updatechecker
         }
 
-        PlasmaComponents.Label {
+        Label {
            text: i18n("Update Checker AUR: ")
 
         }
         TextInput {
           id: updatechecker_aur
+          text: plasmoid.configuration.updatechecker_aur
         }
 
-        PlasmaComponents.Label {
+        Label {
           text: i18n("Installation Command: ")
         }
 
         TextInput {
           id: installationcommand
+          text: plasmoid.configuration.installationcommand
         }
 
+    }
+    Component.onCompleted: {
+      console.log("loaded configPacman.qml");
     }
 }

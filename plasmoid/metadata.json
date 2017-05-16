@@ -21,7 +21,6 @@
         "Version": "1.0",
         "Website": "https://github.com/harriseldon/plasmoid-arch-updatenotifier"
     },
-    "NoDisplay": true,
     "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-MainScript": "ui/main.qml"
 }
