@@ -13,7 +13,8 @@ Item {
   property string title: Plasmoid.title
   Plasmoid.configurationRequired: true
   Plasmoid.toolTipSubText: subtext
-  Plasmoid.icon: packageModel.count > 0 ? "package-new" : "package-available"
+  //Plasmoid.icon: packageModel.count > 0 ? "package-new" : "package-available"
+  Plasmoid.icon: "package-new"
   Plasmoid.compactRepresentation: CompactRepresentation {}
   Plasmoid.fullRepresentation: FullRepresentation {}
   Plasmoid.switchWidth: units.gridUnit * 8
@@ -73,13 +74,13 @@ Item {
       //console.log ("onExited " + executable.sourceName)
       //console.log ("onExited " + config.updateChecker)
       //console.log( executable.sourceName === config.updateChecker)
-      console.log("onExited " + executable.sourceName)
-      console.log("exitCode: " + exitCode)
-      console.log("exitStatus: " + exitStatus)
-      console.log("stdout: " + stdout)
-      console.log("stderr: " + stderr)
+      //console.log("onExited " + executable.sourceName)
+      //console.log("exitCode: " + exitCode)
+      //console.log("exitStatus: " + exitStatus)
+      //console.log("stdout: " + stdout)
+      //console.log("stderr: " + stderr)
       if ( sourceName === config.updateChecker ) {
-         console.log ("Updating model")
+         //console.log ("Updating model")
 
          var packagelines = stdout.split("\n")
          if ( packagelines.length > packageModel.count ) {
@@ -99,7 +100,7 @@ Item {
 
       } else if (sourceName === config.updateChecker_aur) {
         //do not clear the packageModel
-        console.log("Updating aur model")
+        //console.log("Updating aur model")
         var packagelines = stdout.split("\n")
         var pregex = /^\S+\s+\S+\s+(\S+)\s+(\S+)\s+\S+\s+(\S+)/;
         for ( var i = 0; i < packagelines.length; i++) {
@@ -110,7 +111,7 @@ Item {
 
           if ( parameters != null) {
             //console.log ("Appending Package: " + packagedetails[0])
-            console.log("package name " + parameters[1])
+            //console.log("package name " + parameters[1])
             packageModel.append( { PackageName: parameters[1],
                   FromVersion: parameters[2],
                   ToVersion: parameters[3]})
@@ -140,13 +141,15 @@ Item {
      timer.stop()
      //executable.exec('konsole -e ' + config.updateCommand)
      executable.exec('konsole -e "' + plasmoid.configuration.installationcommand + '"')
+     //clear the model in preparation for next run -- since updating software
+     packageModel.clear()
      timer.start()
   }
   Component.onCompleted: {
-    console.log("onCompleted")
+    //console.log("onCompleted")
     plasmoid.status = PlasmaCore.Types.PassiveStatus
     plasmoid.setAction("action_updateSystem", i18n("Update System"), "package-install")
-    console.log("checkupdates " + plasmoid.configuration.updatechecker)
+    //console.log("checkupdates " + plasmoid.configuration.updatechecker)
     executable.exec(plasmoid.configuration.updatechecker)
     executable.exec(plasmoid.configuration.updatechecker_aur)
     timer.start()
