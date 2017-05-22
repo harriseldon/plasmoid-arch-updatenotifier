@@ -12,6 +12,19 @@ Item {
       source: "package-new"
   }
   Rectangle {
+    id: whitecircle
+    width: packageCount.width + 6
+    height: width
+    radius: Math.round(width / 2 + 1)
+    color: "White"
+    opacity: 0.7
+    visible: packageModel.count > 0
+    anchors {
+      right: parent.right
+      top: parent.top
+    }
+  }
+  Rectangle {
       id: circle
       width: packageCount.width + 4
       height: width
@@ -28,7 +41,7 @@ Item {
   Text {
     id: packageCount
     text: packageModel.count
-    font.pointSize: 12
+    font.pointSize: 8
     color: "White"
     anchors.centerIn: circle
     visible: circle.visible
