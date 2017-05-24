@@ -94,7 +94,8 @@ Item {
            if ( packagelines[i].trim() != "") {
              packageModel.append( { PackageName: packagedetails[0],
                    FromVersion: packagedetails[1],
-                   ToVersion: packagedetails[3]})
+                   ToVersion: packagedetails[3],
+                 })
            }
          }
 
