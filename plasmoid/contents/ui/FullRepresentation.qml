@@ -31,6 +31,17 @@ Item {
         onClicked: main.action_updateSystem()
     }
 
+    PlasmaComponents.ToolButton {
+        id: checkUpdatesIcon
+
+        anchors.right: updateIcon.left
+        anchors.top: parent.top
+        height: units.iconSizes.medium
+        iconSource: "package-upgrade"
+        tooltip: i18n("Check for Updates")
+        onClicked: main.action_checkForUpdates()
+    }
+
     PlasmaExtras.ScrollArea {
         id: scrollView;
 
@@ -51,6 +62,11 @@ Item {
 
             delegate: PackageItem {}
 
+            /*onTriggered: {
+                // Retrieve the selected item
+               var chosenItem = packageModel.data(indexPath);
+               Qt.openUrlExternally("http://www.google.com");
+            }*/
         }
     }
 }

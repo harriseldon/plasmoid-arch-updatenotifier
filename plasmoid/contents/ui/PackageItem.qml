@@ -8,7 +8,6 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 PlasmaComponents.ListItem {
   id: packageItem
   enabled: true
-
   Item {
     id: packageItemBase
 

@@ -17,11 +17,11 @@
     </entry>
     <entry name="updatechecker_aur" type="String">
       <whatsthis>Application to check AUR for updates without installing.</whatsthis>
-      <default>pacaur -k</default>
+      <default>trizen -Su --aur | tee /dev/null</default>
     </entry>
     <entry name="installationcommand" type="String">
       <whatsthis>Application to install updates.</whatsthis>
-      <default>pacaur -Syu</default>
+      <default>trizen -Syu</default>
     </entry>
   </group>
 </kcfg>

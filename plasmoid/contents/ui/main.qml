@@ -16,7 +16,7 @@ Item {
   //Plasmoid.icon: packageModel.count > 0 ? "package-new" : "package-available"
   Plasmoid.icon: "package-new"
   Plasmoid.compactRepresentation: CompactRepresentation {}
-  Plasmoid.fullRepresentation: FullRepresentation {}
+  Plasmoid.fullRepresentation: FullRepresentation{}
   Plasmoid.switchWidth: units.gridUnit * 8
   Plasmoid.switchHeight: units.gridUnit * 8
 
@@ -48,7 +48,7 @@ Item {
     }
     function exec(cmd) {
 
-        //console.log("exec " + cmd)
+        console.log("exec " + cmd)
         //sourceName = cmd
         //connectedSources.push(cmd)
         connectSource(cmd)
@@ -71,14 +71,14 @@ Item {
   Connections {
     target: executable
     onExited: {
-      //console.log ("onExited " + executable.sourceName)
-      //console.log ("onExited " + config.updateChecker)
-      //console.log( executable.sourceName === config.updateChecker)
-      //console.log("onExited " + executable.sourceName)
-      //console.log("exitCode: " + exitCode)
-      //console.log("exitStatus: " + exitStatus)
-      //console.log("stdout: " + stdout)
-      //console.log("stderr: " + stderr)
+      console.log ("onExited " + executable.sourceName);
+      console.log ("onExited " + config.updateChecker);
+      console.log( executable.sourceName === config.updateChecker);
+      console.log("onExited " + executable.sourceName);
+      console.log("exitCode: " + exitCode);
+      console.log("exitStatus: " + exitStatus);
+      console.log("stdout: " + stdout);
+      console.log("stderr: " + stderr);
       if ( sourceName === config.updateChecker ) {
          //console.log ("Updating model")
 
@@ -103,7 +103,14 @@ Item {
         //do not clear the packageModel
         //console.log("Updating aur model")
         var packagelines = stdout.split("\n")
-        var pregex = /^\S+\s+\S+\s+(\S+)\s+(\S+)\s+\S+\s+(\S+)/;
+        var pregex;
+        if( config.updateChecker_aur.includes('pacaur')  ) {
+           pregex = /^\S+\s+\S+\s+(\S+)\s+(\S+)\s+\S+\s+(\S+)/;
+
+        } else if ( config.updateChecker_aur.includes('trizen') ) {
+          pregex = /^\S+\s+(\S+):\s+(\S+)\s+==>\s+(\S+)/;
+        }
+        
         for ( var i = 0; i < packagelines.length; i++) {
           var packageline = packagelines[i];
 
@@ -146,13 +153,21 @@ Item {
      packageModel.clear()
      timer.start()
   }
+  function action_checkForUpdates() {
+    executable.exec(plasmoid.configuration.updatechecker);
+    executable.exec(plasmoid.configuration.updatechecker_aur);    
+  }
+
+  function configChanged() {
+    config.interval = plasmoid.readConfig("pollinterval");
+  }
   Component.onCompleted: {
-    //console.log("onCompleted")
-    plasmoid.status = PlasmaCore.Types.PassiveStatus
-    plasmoid.setAction("action_updateSystem", i18n("Update System"), "package-install")
+    plasmoid.addEventListener('ConfigChanged', configChanged);
+    plasmoid.status = PlasmaCore.Types.PassiveStatus;
+    plasmoid.setAction("action_updateSystem", i18n("Update System"), "package-install");
     //console.log("checkupdates " + plasmoid.configuration.updatechecker)
-    executable.exec(plasmoid.configuration.updatechecker)
-    executable.exec(plasmoid.configuration.updatechecker_aur)
-    timer.start()
+    executable.exec(plasmoid.configuration.updatechecker);
+    executable.exec(plasmoid.configuration.updatechecker_aur);
+    timer.start();
   }
 }

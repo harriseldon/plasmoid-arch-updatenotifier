@@ -50,5 +50,6 @@ Item {
     }
     Component.onCompleted: {
       console.log("loaded configPacman.qml");
+      
     }
 }
