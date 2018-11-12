@@ -108,7 +108,7 @@ Item {
            pregex = /^\S+\s+\S+\s+(\S+)\s+(\S+)\s+\S+\s+(\S+)/;
 
         } else if ( config.updateChecker_aur.includes('trizen') ) {
-          pregex = /^\S+\s+(\S+):\s+(\S+)\s+==>\s+(\S+)/;
+          pregex = /^\s\S+\s+(\S+):\s+(\S+)\s+==>\s+(\S+)/;
         }
         
         for ( var i = 0; i < packagelines.length; i++) {
@@ -116,7 +116,7 @@ Item {
 
 
           var parameters = pregex.exec(packageline);
-
+          //console.log(parameters);
           if ( parameters != null) {
             //console.log ("Appending Package: " + packagedetails[0])
             //console.log("package name " + parameters[1])
