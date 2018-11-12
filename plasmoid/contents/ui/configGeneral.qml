@@ -9,7 +9,7 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    property alias pollinterval: spinbox.value
+    property alias cfg_pollinterval: spinbox.value
 
     QtLayouts.RowLayout {
         anchors.left: parent.left

@@ -8,7 +8,7 @@ Item {
   PlasmaCore.IconItem {
       id: itemIconImage
       anchors.fill: parent
-      anchors.margins: units.smallSpacing
+      //anchors.margins: units.smallSpacing
       source: "package-new"
   }
   

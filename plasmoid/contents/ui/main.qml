@@ -17,8 +17,8 @@ Item {
   Plasmoid.icon: "package-new"
   Plasmoid.compactRepresentation: CompactRepresentation {}
   Plasmoid.fullRepresentation: FullRepresentation{}
-  Plasmoid.switchWidth: units.gridUnit * 8
-  Plasmoid.switchHeight: units.gridUnit * 8
+  //Plasmoid.switchWidth: units.gridUnit * 8
+  //Plasmoid.switchHeight: units.gridUnit * 8
 
   ListModel { id: packageModel
      /*
